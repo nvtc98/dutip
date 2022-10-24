@@ -4,8 +4,9 @@ import {Searchbar, Card, IconButton} from 'react-native-paper';
 import useYoutube from '../hooks/youtube';
 import normalize from 'react-native-normalize';
 import {spacingNormal, spacingSmall} from '../constants/style';
+import Screens from '../constants/screen';
 
-export default function Home() {
+export default function Home({navigation}) {
   const {search, download} = useYoutube();
   const [searchText, setSearchText] = useState('');
   const [searchList, setSearchList] = useState([]);
@@ -18,6 +19,10 @@ export default function Home() {
 
   const onDownload = videoId => {
     download(videoId);
+  };
+
+  const onItemPress = videoId => {
+    navigation.push(Screens.Details, {videoId});
   };
 
   const renderItem = ({item}) => {
@@ -33,7 +38,10 @@ export default function Home() {
       },
     } = item;
     return (
-      <Card style={styles.itemContainer} mode="elevated">
+      <Card
+        style={styles.itemContainer}
+        mode="elevated"
+        onPress={() => onItemPress(videoId)}>
         <View style={styles.itemContentContainer}>
           <Card.Cover
             source={{uri: url}}
@@ -47,7 +55,7 @@ export default function Home() {
           />
           <View style={styles.itemActionContainer}>
             <IconButton
-              icon="camera"
+              icon="plus-circle"
               size={spacingNormal}
               style={styles.itemActionIcon}
               onPress={() => {}}

@@ -32,7 +32,12 @@ const useYoutube = () => {
     console.log('info', info);
   };
 
-  return {search, download};
+  const getUrl = async id => {
+    const info = await ytdl('https://youtu.be/' + id);
+    return info?.[0]?.url;
+  };
+
+  return {search, download, getUrl};
 };
 
 export default useYoutube;
