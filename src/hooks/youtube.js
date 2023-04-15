@@ -27,17 +27,24 @@ const useYoutube = () => {
 
   const download = async id => {
     console.log('start');
-    // let info = await ytdl.getInfo(id);
-    const info = await ytdl('https://youtu.be/9HXocME0XOI');
+    let info = await ytdl.getInfo(id);
+    // const info = await ytdl('https://youtu.be/9HXocME0XOI');
     console.log('info', info);
   };
 
   const getUrl = async id => {
-    const info = await ytdl('https://youtu.be/' + id);
+    const info = await ytdl('https://youtu.be/' + id, {
+      filter: format => format.container === 'mp4',
+    });
     return info?.[0]?.url;
   };
 
-  return {search, download, getUrl};
+  const getAudio = async id => {
+    const info = await ytdl('https://youtu.be/' + id, {filter: 'audioonly'});
+    return info?.[0]?.url;
+  };
+
+  return {search, download, getUrl, getAudio};
 };
 
 export default useYoutube;
